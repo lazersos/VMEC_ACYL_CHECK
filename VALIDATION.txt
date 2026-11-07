@@ -1,0 +1,36 @@
+Validation performed on 2026-11-07
+
+Compiler: GNU Fortran 14.2.0, Linux x86_64.
+Flags: -O0 -g -fcheck=all -fbacktrace -Wimplicit-interface -Wall -Wextra.
+The actual upstream STELLOPT stel_kinds module supplied rprec.
+
+1. cylindrical_curl.f90 and tests/test_curl.f90 compiled and ran successfully.
+   Test potential has nonzero R, phi, and Z components and toroidal harmonic 5.
+   One field period, duplicated endpoint, shifted initial toroidal angle.
+   Maximum component error:
+      16 toroidal intervals: 1.7816e-2 T
+      32 toroidal intervals: 4.5129e-3 T
+      Refinement ratio:     3.9479
+   Periodic wrapping, invalid-center/neighbor masks, omitted R/Z boundaries,
+   copied endpoint, and NaN output for invalid stencils passed.
+
+2. The complete driver and Makefile compiled and linked against SYNTHETIC
+   read_wout_mod/vmec_utils evaluators with the expected public interfaces.
+   These scratch-only mocks supplied a circular plasma domain and analytic
+   vector potential and magnetic field; they did NOT read an actual WOUT.
+   Default 33 x 33 x 33 run:
+      25,344 valid A samples and B samples (unique toroidal planes)
+      22,400 valid comparison stencils
+      Relative RMS vector error: 1.6206230e-3
+      Fitted curl(A)/B scale:     0.99959046
+   Refined 65 x 65 x 65 run:
+      Relative RMS vector error: 4.0585271e-4
+   CSV field count, finite values, difference columns, no duplicate endpoint
+   rows, command-line help/usage, namelist parsing, full-torus mode, shifted
+   toroidal origin, too-small grid, and empty comparison failures passed.
+
+Not performed: linking against a complete production LIBSTELL build, reading
+an actual WOUT through LIBSTELL, execution of the user's GetAcyl implementation,
+or compiling/running on macOS. The installed library's flux normalization,
+interpolants, build dependencies, and inverse-map behavior remain part of the
+real-equilibrium comparison. No library code or mock library is included here.

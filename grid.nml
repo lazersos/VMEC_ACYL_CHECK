@@ -1,0 +1,13 @@
+&grid
+  nr = 33
+  nphi = 33
+  nz = 33
+  ! R/Z bounds default to sampled WOUT boundary extrema, in meters.
+  ! Uncomment to restrict the comparison to a smaller rectangular box:
+  ! rmin = 5.0, rmax = 6.0, zmin = -0.5, zmax = 0.5
+  phi0 = 0.0
+  full_torus = .false.
+  s_min = 0.0001
+  s_max = 0.98
+  output = 'comparison.csv'
+/
