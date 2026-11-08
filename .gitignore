@@ -1,3 +1,9 @@
+# VMEC Stuff
+compare_wout
+*.csv
+*.png
+*.nc
+
 # Prerequisites
 *.d
 
@@ -75,6 +81,7 @@ __MACOSX/
 .LSOverride
 Icon[
 ]
+*.dSYM
 
 # Resource forks
 ._*
