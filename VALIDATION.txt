@@ -34,3 +34,17 @@ an actual WOUT through LIBSTELL, execution of the user's GetAcyl implementation,
 or compiling/running on macOS. The installed library's flux normalization,
 interpolants, build dependencies, and inverse-map behavior remain part of the
 real-equilibrium comparison. No library code or mock library is included here.
+
+Follow-up WOUT sign check (2026-11-07):
+Inspected the public STELLOPT axisymmetric DIII-D benchmark
+BENCHMARKS/DIAGNO_TEST/wout_DIIID_m24n0s99_nfp1.nc, using scipy.io.netcdf_file.
+signgs=-1; median [finite-difference d(chi)/ds / midpoint chipf] = -0.99997926;
+chipf/(iotaf*phipf)=1. This confirms that WOUT chi already carries the internal
+orientation, whereas chipf has the external signgs normalization. Corrected
+README's Aphi_cov to -chi/(2*pi), without an additional isigng factor.
+
+Plotting script:
+Rendered all component/magnitude panels as PNG and magnitude panels as PDF
+from synthetic driver output. Checked sparse-grid reconstruction, blank masks,
+one-based phi selection/listing, and agreement of recomputed vector relative
+errors with the CSV's relative_error column. NumPy 2.3.5, Matplotlib 3.10.8.

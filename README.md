@@ -104,7 +104,12 @@ alone is not a rigorous convergence measurement on a fixed physical domain.
 This project tests the installed GetAcyl; it does not replace or patch it.
 In the alternative gauge discussed, WOUT fluxes give covariant components
 As=-isigng*phipf*lambda/(2*pi), Au=isigng*phi/(2*pi), and
-Aphi_cov=-isigng*chi/(2*pi). The physical toroidal component is Aphi_cov/R
+Aphi_cov=-chi/(2*pi). Unlike phi and phipf, the WOUT chi profile already
+carries VMEC's internal orientation: eqfor.f integrates the internal phip
+times iotas and writes chi=2*pi*chi1. Do not multiply chi by isigng again.
+With isigng=-1, that extra factor would reverse the axisymmetric poloidal
+field while leaving the toroidal field unchanged.
+The physical toroidal component is Aphi_cov/R
 only after accounting for the Rphi and Zphi contributions in the transformation.
 
 Check your implementation for the 1/(2*pi) normalization and for sflx/uflx
@@ -114,6 +119,21 @@ in those versions GetAcyl must pass LAM, LU, and LV, even if only LAM is used.
 Older text WOUT readers may not allocate chi; use a NetCDF WOUT with the
 required profiles, or adapt GetAcyl to reconstruct its poloidal flux.
 The comparison intentionally leaves these behaviors visible.
+
+## Plot a toroidal plane
+
+The included plot_comparison.py requires NumPy and Matplotlib:
+
+```sh
+python plot_comparison.py comparison.csv --phi-index 8 -o phi8.png
+python plot_comparison.py comparison.csv --list-phi
+```
+
+The default figure has rows for BR, Bphi, BZ, and field magnitude, and columns
+for GetBcyl, curl(GetAcyl), and relative error. Indices are one based among
+sorted planes present in the CSV. Component errors are normalized by the
+reference vector magnitude; the magnitude row shows vector relative error.
+Missing cells remain blank. Use --component magnitude for a three-panel figure.
 
 ## Verification
 
