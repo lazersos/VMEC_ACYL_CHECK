@@ -1,8 +1,8 @@
 # Use the same compiler and compatible options as the LIBSTELL build.
-FC = gfortran
-FFLAGS ?= -O0 -g -fcheck=all -fbacktrace -Wimplicit-interface -Wall -Wextra
-CPPFLAGS ?=
-LDFLAGS ?=
+#FC = gfortran
+#FFLAGS ?= -O0 -g -fcheck=all -fbacktrace -Wimplicit-interface -Wall -Wextra
+#CPPFLAGS ?=
+#LDFLAGS ?=
 
 # Override these paths on the make command line or in config.mk.
 STELLOPT ?= $(STELLOPT_PATH)
@@ -13,6 +13,11 @@ LIBSTELL ?= $(STELLOPT)/LIBSTELL/Release/libstell.a
 # Examples: nf-config --flibs, LAPACK/BLAS, HDF5, FFTW, OpenMP, or MPI.
 LDLIBS ?= 
 -include $(STELLOPT)/make.inc
+
+FC = $(MPI_COMPILE)
+FFLAGS = $(FLAGS_R) -g -fcheck=all -fbacktrace -Wimplicit-interface -Wall -Wextra
+FFLAGS += $(NETCDF_INC)
+LDLIBS += $(LIBS) $(NETCDF_LIB)
 
 .PHONY: all clean dsym check
 all: compare_wout
